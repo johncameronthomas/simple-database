@@ -50,7 +50,6 @@ class server:
 
     def handle_client(self, client_socket):
         data = json.loads(client_socket.recv(1024).decode())
-        print(data)
         match data['action']:
             case 'dump':
                 return_data = self.database.perform_action(0, None)

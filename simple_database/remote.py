@@ -50,15 +50,16 @@ class server:
 
     def handle_client(self, client_socket):
         data = json.loads(client_socket.recv(1024).decode())
+        print(data)
         match data['action']:
             case 'dump':
-                return_data = self.database.dump()
+                return_data = self.database.perform_action(0, None)
             case 'read':
-                return_data = self.database.read(data['arg'])
+                return_data = self.database.perform_action(1, data['arg'])
             case 'write':
                 return_data = self.database.perform_action(2, data['arg'])
             case 'remove':
-                return_data = self.database.remove(data['arg'])
+                return_data = self.database.perform_action(3, data['arg'])
         client_socket.sendall(json.dumps(return_data).encode())
         client_socket.shutdown(1)
         client_socket.close()

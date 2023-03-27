@@ -12,7 +12,7 @@ class client:
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         client_socket.connect(self.address)
         client_socket.sendall(json.dumps({'action': action, 'arg': arg}).encode())
-        data = client_socket.recv(1024).decode()
+        data = json.loads(client_socket.recv(1024).decode())
         client_socket.shutdown(1)
         client_socket.close()
         return data
